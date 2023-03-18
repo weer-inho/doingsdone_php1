@@ -45,6 +45,25 @@ $tasks = [
         "is_done"            => false,
     ],
 ];
+/**
+ * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
+ *
+ * @param array $tasks_array Список задач в виде массива
+ * @param string $category SQL запрос с плейсхолдерами вместо значений
+ *
+ * @return int Число задач для переданного проекта (категории задач)
+ */
+function count_tasks(array $tasks_array, string $category):int {
+    $result = 0;
+
+    foreach ($tasks_array as $task) {
+       if ($task["category"] === $category)
+           $result++;
+    }
+
+    return $result;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -89,7 +108,7 @@ $tasks = [
                         <? foreach ($categories as $category): ?>
                             <li class="main-navigation__list-item">
                                 <a class="main-navigation__list-item-link" href="#"><?= $category ?></a>
-                                <span class="main-navigation__list-item-count">0</span>
+                                <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $category); ?></span>
                             </li>
                         <? endforeach; ?>
                     </ul>
