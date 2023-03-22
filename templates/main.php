@@ -50,7 +50,10 @@
                     continue;
                 }
                 ?>
-                <tr class="tasks__item task <?= $task["is_done"] ? 'task--completed' : '' ?>">
+                <tr class="tasks__item task
+                    <?= $task["is_done"] ? 'task--completed' : '' ?>
+                    <?= check_exp_date($task["date_of_completion"]) > 0 ? '' : 'task--important' ?>
+                ">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
                             <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">

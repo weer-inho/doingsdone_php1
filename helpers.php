@@ -142,3 +142,16 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+
+/**
+ * Считает, сколько осталось до определенной даты. Если меньше 24 часов - возвращает false. Больше - возвращает true
+ * @param string $date Дата в виде строки
+ * @return bool Ответ
+ */
+function check_exp_date(string $date) {
+    date_default_timezone_set('Europe/Moscow');
+    $tomorrow = strtotime("+1 day");
+    $date = strtotime($date);
+
+    return $date - $tomorrow;
+}

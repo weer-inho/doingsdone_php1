@@ -13,7 +13,7 @@ $categories = [
 $tasks = [
     [
         "title"              => "Собеседование в IT компании",
-        "date_of_completion" => "01.12.2019",
+        "date_of_completion" => "24.03.2023",
         "category"           => $categories["work"],
         "is_done"            => false,
     ],
@@ -48,6 +48,7 @@ $tasks = [
         "is_done"            => false,
     ],
 ];
+
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
  *
@@ -62,6 +63,25 @@ function count_tasks(array $tasks_array, string $category):int {
     foreach ($tasks_array as $task) {
        if ($task["category"] === $category)
            $result++;
+    }
+
+    return $result;
+}
+
+/**
+ * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
+ *
+ * @param array $tasks_array Список задач в виде массива
+ * @param string $category SQL запрос с плейсхолдерами вместо значений
+ *
+ * @return int Число задач для переданного проекта (категории задач)
+ */
+function count_task(array $tasks_array, string $category):int {
+    $result = 0;
+
+    foreach ($tasks_array as $task) {
+        if ($task["category"] === $category)
+            $result++;
     }
 
     return $result;
@@ -83,3 +103,5 @@ $layout_content = include_template(
     ]
 );
 print($layout_content);
+
+//print_r(check_exp_date('25.12.2019'));
