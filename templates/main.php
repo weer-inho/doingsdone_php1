@@ -6,8 +6,8 @@
             <ul class="main-navigation__list">
                 <? foreach ($categories as $category): ?>
                     <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?= $category ?></a>
-                        <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $category); ?></span>
+                        <a class="main-navigation__list-item-link" href="#"><?= $category['title'] ?></a>
+                        <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $category['title']); ?></span>
                     </li>
                 <? endforeach; ?>
             </ul>
@@ -52,7 +52,7 @@
                 ?>
                 <tr class="tasks__item task
                     <?= $task["is_done"] ? 'task--completed' : '' ?>
-                    <?= check_exp_date($task["date_of_completion"]) > 0 ? '' : 'task--important' ?>
+                    <?= check_exp_date($task["end_date"]) > 0 ? '' : 'task--important' ?>
                 ">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
@@ -65,7 +65,7 @@
                         <a class="download-link" href="#"></a>
                     </td>
 
-                    <td class="task__date"><?= $task["date_of_completion"] ?></td>
+                    <td class="task__date"><?= $task["end_date"] ?></td>
                 </tr>
             <? endforeach; ?>
         </table>

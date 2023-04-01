@@ -1,97 +1,36 @@
 <?php
-
 require_once('helpers.php');
+require_once('init.php');
+require_once('data.php');
+require_once('functions.php');
+require_once('models.php');
 
-$show_complete_tasks = rand(0, 1);
-$categories = [
-    "inbox"    => "Входящие",
-    "study"    => "Учеба",
-    "work"     => "Работа",
-    "homework" => "Домашние дела",
-    "auto"     => "Авто",
-];
-$tasks = [
-    [
-        "title"              => "Собеседование в IT компании",
-        "date_of_completion" => "24.03.2023",
-        "category"           => $categories["work"],
-        "is_done"            => false,
-    ],
-    [
-        "title"              => "Выполнить тестовое задание",
-        "date_of_completion" => "25.12.2019",
-        "category"           => $categories["work"],
-        "is_done"            => false,
-    ],
-    [
-        "title"              => "Сделать задание первого раздела",
-        "date_of_completion" => "21.12.2019",
-        "category"           => $categories["study"],
-        "is_done"            => true,
-    ],
-    [
-        "title"              => "Встреча с другом",
-        "date_of_completion" => "22.12.2019",
-        "category"           => $categories["inbox"],
-        "is_done"            => false,
-    ],
-    [
-        "title"              => "Купить корм для кота",
-        "date_of_completion" => "null",
-        "category"           => $categories["homework"],
-        "is_done"            => false,
-    ],
-    [
-        "title"              => "Заказать пиццу",
-        "date_of_completion" => "null",
-        "category"           => $categories["homework"],
-        "is_done"            => false,
-    ],
-];
-
-/**
- * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
- *
- * @param array $tasks_array Список задач в виде массива
- * @param string $category SQL запрос с плейсхолдерами вместо значений
- *
- * @return int Число задач для переданного проекта (категории задач)
- */
-function count_tasks(array $tasks_array, string $category):int {
-    $result = 0;
-
-    foreach ($tasks_array as $task) {
-       if ($task["category"] === $category)
-           $result++;
+if (!$con) {
+    $error = mysqli_connect_error();
+} else {
+    $sql_projects = "SELECT title FROM projects";
+    $result_projects = mysqli_query($con, $sql_projects);
+    if ($result_projects) {
+        $projects = mysqli_fetch_all($result_projects, MYSQLI_ASSOC);
+    } else {
+        $error = mysqli_connect_error();
     }
-
-    return $result;
 }
 
-/**
- * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
- *
- * @param array $tasks_array Список задач в виде массива
- * @param string $category SQL запрос с плейсхолдерами вместо значений
- *
- * @return int Число задач для переданного проекта (категории задач)
- */
-function count_task(array $tasks_array, string $category):int {
-    $result = 0;
-
-    foreach ($tasks_array as $task) {
-        if ($task["category"] === $category)
-            $result++;
-    }
-
-    return $result;
+// получение задач из бд
+$sql_tasks    = get_query_list_tasks(1);
+$result_tasks = mysqli_query($con, $sql_tasks);
+if ($result_tasks) {
+    $tasks = mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
+} else {
+    $error = mysqli_error();
 }
 
 $page_content = include_template(
     'main.php',
     [
         'show_complete_tasks' => $show_complete_tasks,
-        'categories'          => $categories,
+        'categories'          => $projects,
         'tasks'               => $tasks
     ]
 );
@@ -103,5 +42,3 @@ $layout_content = include_template(
     ]
 );
 print($layout_content);
-
-//print_r(check_exp_date('25.12.2019'));
