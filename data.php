@@ -1,4 +1,5 @@
 <?php
+$user_id = 2;
 $show_complete_tasks = rand(0, 1);
 $categories_old = [
     "inbox"    => "Входящие",

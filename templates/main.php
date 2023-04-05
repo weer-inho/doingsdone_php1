@@ -4,10 +4,14 @@
 
         <nav class="main-navigation">
             <ul class="main-navigation__list">
-                <? foreach ($categories as $category): ?>
+                <? foreach ($projects as $project): ?>
                     <li class="main-navigation__list-item">
-                        <a class="main-navigation__list-item-link" href="#"><?= $category['title'] ?></a>
-                        <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $category['title']); ?></span>
+                        <a
+                            class="main-navigation__list-item-link <? if ($project['id'] === $project_id): ?> main-navigation__list-item--active<? endif; ?>"
+                            href="?project_id=<?= $project['id'] ?>">
+                            <?= $project['title'] ?>
+                        </a>
+                        <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
                 <? endforeach; ?>
             </ul>
@@ -46,10 +50,13 @@
 
         <table class="tasks">
             <? foreach ($tasks as $task):
-                if ($show_complete_tasks && $task["is_done"]) {
+                if (!$show_complete_tasks && $task["is_done"]) {
                     continue;
                 }
-                ?>
+                if ($project_id !== '' && $task["project_id"] != $project_id) {
+                    continue;
+                }
+            ?>
                 <tr class="tasks__item task
                     <?= $task["is_done"] ? 'task--completed' : '' ?>
                     <?= check_exp_date($task["end_date"]) > 0 ? '' : 'task--important' ?>
