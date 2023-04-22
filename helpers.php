@@ -30,6 +30,13 @@ function is_date_valid(string $date) : bool {
  * @return mysqli_stmt Подготовленное выражение
  */
 function db_get_prepare_stmt($link, $sql, $data = []) {
+    echo '<pre>';
+    var_export($data);
+    echo '</pre><br>';
+
+    echo '<pre>';
+    var_export($sql);
+    echo '</pre>';
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {

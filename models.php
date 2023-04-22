@@ -10,3 +10,50 @@ function get_query_list_tasks($user_id): string
            "JOIN projects p ON t.project_id = p.id " .
            "WHERE t.author_id = $user_id";
 }
+
+/**
+ * Формирует SQL-запрос для получения списка задач от определенного пользователя
+ */
+function get_tasks($user_id, $con)
+{
+    $sql_tasks    = get_query_list_tasks($user_id);
+    $result_tasks = mysqli_query($con, $sql_tasks);
+    if ($result_tasks) {
+        return mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
+    }
+    else {
+        return mysqli_error();
+    }
+
+}
+
+/**
+ * Возвращает массив проектов
+ * @param $con Подключение к MySQL
+ * @return array $error Описание последней ошибки подключения
+ * @return array $categories Ассоциативный массив с проектами
+ */
+function get_projects($con):array
+{
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "SELECT id, title, title FROM projects";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } else {
+            return mysqli_error();
+        }
+    }
+}
+
+/**
+ * Формирует подготовленный SQL-запрос для создания нового лота
+ * @param integer $user_id id пользователя
+ * @return string SQL-запрос
+ */
+function get_query_create_task($user_id):string {
+    return "INSERT INTO tasks (title, project_id, end_date, file_url, author_id, status) VALUES (?, ?, ?, ?, $user_id, 0)";
+}
