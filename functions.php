@@ -31,3 +31,7 @@ function validate_project($project_id, array $project_ids) {
 function validate_title($title) {
     return is_string($title) && trim($title) !== '' ? null : "Название задачи не должно быть пустым";
 }
+
+function validate_email($email) {
+    return !filter_var($email, FILTER_VALIDATE_EMAIL) ? "Введите корректный email" : null;
+}

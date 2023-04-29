@@ -28,6 +28,24 @@ function get_tasks($user_id, $con)
 }
 
 /**
+ * Формирует подготовленный SQL-запрос для создания нового лота
+ * @param integer $user_id id пользователя
+ * @return string SQL-запрос
+ */
+function get_query_create_task($user_id):string {
+    return "INSERT INTO tasks (title, project_id, end_date, file_url, author_id, status) VALUES (?, ?, ?, ?, $user_id, 0)";
+}
+
+/**
+ * Формирует подготовленный SQL-запрос для создания нового лота
+ * @param integer $user_id id пользователя
+ * @return string SQL-запрос
+ */
+function get_query_create_user():string {
+    return "INSERT INTO users (email, password, user_name, register_date) VALUES (?, ?, ?, NOW())";
+}
+
+/**
  * Возвращает массив проектов
  * @param $con Подключение к MySQL
  * @return array $error Описание последней ошибки подключения
@@ -50,10 +68,23 @@ function get_projects($con):array
 }
 
 /**
- * Формирует подготовленный SQL-запрос для создания нового лота
- * @param integer $user_id id пользователя
- * @return string SQL-запрос
+ * Возвращает массив пользователей
+ * @param $con Подключение к MySQL
+ * @return array $error Описание последней ошибки подключения
+ * @return array $categories Массив пользователей
  */
-function get_query_create_task($user_id):string {
-    return "INSERT INTO tasks (title, project_id, end_date, file_url, author_id, status) VALUES (?, ?, ?, ?, $user_id, 0)";
+function get_users($con):array
+{
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "SELECT email, user_name FROM users";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        } else {
+            return mysqli_error();
+        }
+    }
 }
