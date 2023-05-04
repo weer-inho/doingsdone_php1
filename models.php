@@ -24,7 +24,6 @@ function get_tasks($user_id, $con)
     else {
         return mysqli_error();
     }
-
 }
 
 /**
@@ -82,9 +81,78 @@ function get_users($con):array
         $result = mysqli_query($con, $sql);
 
         if ($result) {
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $users_data = get_arrow($result);
+            return $users_data;
         } else {
             return mysqli_error();
         }
     }
+}
+
+function get_password_by_email($con, $email)
+{
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "SELECT password FROM users WHERE email = '$email'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            $users_data = mysqli_fetch_assoc($result);
+            return reset($users_data);
+        } else {
+            return mysqli_error();
+        }
+    }
+}
+
+function get_name_by_email($con, $email)
+{
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "SELECT user_name FROM users WHERE email = '$email'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            $users_data = mysqli_fetch_assoc($result);
+            return reset($users_data);
+        } else {
+            return mysqli_error();
+        }
+    }
+}
+
+function get_id_by_email($con, $email)
+{
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "SELECT id FROM users WHERE email = '$email'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            $users_data = mysqli_fetch_assoc($result);
+            return reset($users_data);
+        } else {
+            return mysqli_error();
+        }
+    }
+}
+
+/**
+ * Возвращает массив из объекта результата запроса
+ * @param object $result_query mysqli Результат запроса к базе данных
+ * @return array
+ */
+function get_arrow($result_query)
+{
+    $row = mysqli_num_rows($result_query);
+    if ($row === 1) {
+        $arrow = mysqli_fetch_assoc($result_query);
+    } else if ($row > 1) {
+        $arrow = mysqli_fetch_all($result_query, MYSQLI_ASSOC);
+    }
+
+    return $arrow;
 }

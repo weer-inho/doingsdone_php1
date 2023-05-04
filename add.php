@@ -8,31 +8,32 @@ require_once('models.php');
 /** @var TYPE_NAME $con */
 /** @var TYPE_NAME $user_id */
 
+if (!$is_auth) {
+    header("Location: /guest.php");
+    exit();
+}
+
 $projects    = get_projects($con);
 $project_ids = array_column($projects, 'id');
 
-// echo '<pre>';
-// var_export($project_ids);
-// echo '</pre>';
+$tasks = get_tasks($user_id, $con);
 
-$tasks       = get_tasks($user_id, $con);
-
-$page_content   = include_template(
+$page_content = include_template(
     'add.php',
     ['projects' => $projects, 'tasks' => $tasks]
 );
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['title', 'project_id'];
-    $errors = [];
-    $rules = [
-        'end_date' => function ($end_date) {
+    $errors   = [];
+    $rules    = [
+        'end_date'   => function ($end_date) {
             return validate_date($end_date);
         },
         'project_id' => function ($project_id) use ($project_ids) {
             return validate_project($project_id, $project_ids);
         },
-        'title' => function ($title) {
+        'title'      => function ($title) {
             return validate_title($title);
         },
     ];
@@ -44,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     foreach ($task as $task_field => $field_value) if (isset($rules[$task_field])) {
-        $rule = $rules[$task_field];
+        $rule                = $rules[$task_field];
         $errors[$task_field] = $rule($field_value);
         if (in_array($task_field, $required) and empty($field_value)) $errors[$task_field] = "Это поле обязательное!";
     }
@@ -54,9 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($_FILES['file']['name'])) {
         $tmp_name = $_FILES['file']['tmp_name'];
-        $path = $_FILES['file']['name'];
+        $path     = $_FILES['file']['name'];
 
-        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+        $finfo     = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($finfo, $tmp_name);
         if ($file_type === "image/jpeg") {
             $ext = ".jpg";
@@ -64,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $ext = ".png";
         }
         if ($ext) {
-            $filename = uniqid() . $ext;
+            $filename         = uniqid() . $ext;
             $task['file_url'] = "uploads/" . $filename;
             move_uploaded_file($_FILES['file']['tmp_name'], "uploads/" . $filename);
         } else {
@@ -74,10 +75,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($errors) {
         var_dump($errors);
-        $page_content   = include_template(
+        $page_content = include_template(
             'add.php',
             [
-                'errors' => $errors,
+                'errors'   => $errors,
                 'projects' => $projects,
                 'tasks'    => $tasks
             ]
@@ -95,12 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-
-
 $layout_content = include_template(
     'layout.php',
     [
-        'title' => 'doing is done title',
+        'title'   => 'doing is done title',
         'content' => $page_content
     ]
 );

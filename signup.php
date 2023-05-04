@@ -8,10 +8,12 @@ require_once('models.php');
 /** @var TYPE_NAME $con */
 /** @var TYPE_NAME $user_id */
 
-$page_content = include_template(
-    'signup.php',
-    []
-);
+if ($is_auth) {
+    header("Location: /");
+    exit();
+}
+
+$page_content = include_template('signup.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['email', 'password', 'user_name'];

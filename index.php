@@ -5,6 +5,11 @@ require_once('data.php');
 require_once('functions.php');
 require_once('models.php');
 
+if (!$is_auth) {
+    header("Location: /guest.php");
+    exit();
+}
+
 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
 $projects = get_projects($con);
 $tasks = get_tasks($user_id, $con);
@@ -27,8 +32,9 @@ $page_content   = include_template(
 $layout_content = include_template(
     'layout.php',
     [
-        'title'   => 'doing is done title',
-        'content' => $page_content
+        'title'     => 'doing is done title',
+        'content'   => $page_content,
+        'user_name' => $user_name,
     ]
 );
 print($layout_content);
