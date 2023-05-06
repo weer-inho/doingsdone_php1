@@ -13,22 +13,35 @@ if (!$is_auth) {
 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
 $projects = get_projects($con);
 $tasks = get_tasks($user_id, $con);
-
 if ($project_id === '') {
     http_response_code(404);
     echo '<h1>404 error page</h1>';
     die();
 }
-
 $page_content   = include_template(
     'main.php',
     [
         'show_complete_tasks' => $show_complete_tasks,
         'projects'            => $projects,
         'tasks'               => $tasks,
-        'project_id'          => $project_id
+        'project_id'          => $project_id,
     ]
 );
+
+if (isset($_GET['search'])) {
+    $tasks = get_tasks_by_request($con, $_GET['search']);
+    $page_content   = include_template(
+        'main.php',
+        [
+            'show_complete_tasks' => $show_complete_tasks,
+            'projects'            => $projects,
+            'tasks'               => $tasks,
+            'project_id'          => $project_id,
+            'search' => $_GET['search']
+        ]
+    );
+}
+
 $layout_content = include_template(
     'layout.php',
     [
