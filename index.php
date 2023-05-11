@@ -28,6 +28,15 @@ $page_content   = include_template(
     ]
 );
 
+if (isset($_GET['task_id']) && isset($_GET['check'])) {
+    $res  = change_task_status($con, $_GET['task_id']);
+    if ($res) {
+        header("Location: /");
+    } else {
+        $error = mysqli_error($con);
+    }
+}
+
 if (isset($_GET['search'])) {
     $tasks = get_tasks_by_request($con, $_GET['search']);
     $page_content   = include_template(

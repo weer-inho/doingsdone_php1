@@ -47,7 +47,6 @@
                 <span class="checkbox__text">Показывать выполненные</span>
             </label>
         </div>
-
         <table class="tasks">
             <? foreach ($tasks as $task):
                 if (!$show_complete_tasks && $task["is_done"]) {
@@ -65,7 +64,12 @@
                 ">
                     <td class="task__select">
                         <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                            <input
+                                class="checkbox__input visually-hidden task__checkbox"
+                                type="checkbox"
+                                value="<?= $task["id"] ?>"
+                                <? $task["is_done"] === 1 ? 'checked' : ''; ?>
+                            >
                             <span class="checkbox__text"><?= $task["title"] ?></span>
                         </label>
                     </td>

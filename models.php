@@ -6,7 +6,7 @@
  */
 function get_query_list_tasks($user_id): string
 {
-    return "SELECT p.title as project_title, t.status as is_done, t.title, t.end_date, t.project_id FROM tasks t " .
+    return "SELECT p.title as project_title, t.id, t.status as is_done, t.title, t.end_date, t.project_id FROM tasks t " .
            "JOIN projects p ON t.project_id = p.id " .
            "WHERE t.author_id = $user_id";
 }
@@ -179,4 +179,19 @@ function get_arrow($result_query)
     }
 
     return $arrow;
+}
+
+function change_task_status($con, $task_id){
+    if (!$con) {
+        return mysqli_connect_error();
+    } else {
+        $sql    = "UPDATE tasks SET status = NOT status WHERE id = '$task_id'";
+        $result = mysqli_query($con, $sql);
+
+        if ($result) {
+            return $result;
+        } else {
+            return mysqli_error();
+        }
+    }
 }
