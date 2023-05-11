@@ -18,7 +18,7 @@
         </nav>
 
         <a class="button button--transparent button--plus content__side-button"
-           href="pages/form-project.html" target="project_add">Добавить проект</a>
+           href="/addproject.php" target="project_add">Добавить проект</a>
     </section>
 
     <main class="content__main">
@@ -54,7 +54,7 @@
                     //echo '!$show_complete_tasks && $task["is_done"]<br>';
                     continue;
                 }
-                if ($search === null && $project_id !== '' && $task["project_id"] != $project_id) {
+                if (!isset($search) && $project_id !== '' && $task["project_id"] != $project_id) {
                     //echo '$project_id !== empty && $task["project_id"] != $project_id<br>';
                     continue;
                 }

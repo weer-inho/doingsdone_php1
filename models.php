@@ -35,6 +35,10 @@ function get_query_create_task($user_id):string {
     return "INSERT INTO tasks (title, project_id, end_date, file_url, author_id, status) VALUES (?, ?, ?, ?, $user_id, 0)";
 }
 
+function get_query_create_project($user_id):string {
+    return "INSERT INTO projects (title, author_id) VALUES (?, $user_id)";
+}
+
 /**
  * Формирует подготовленный SQL-запрос для создания нового лота
  * @param integer $user_id id пользователя

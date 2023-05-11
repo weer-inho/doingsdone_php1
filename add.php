@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ]
         );
     } else {
-        $sql  = get_query_create_task(1);
+        $sql  = get_query_create_task($user_id);
         $stmt = db_get_prepare_stmt($con, $sql, $task);
         $res  = mysqli_stmt_execute($stmt);
 
