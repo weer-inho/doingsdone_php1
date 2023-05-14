@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res              = mysqli_stmt_execute($stmt);
 
             if ($res) {
-                header("Location: /");
+                header("Location: /auth.php");
             } else {
                 $error = mysqli_error($con);
             }

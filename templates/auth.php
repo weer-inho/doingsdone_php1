@@ -25,7 +25,7 @@
             </div>
 
             <div class="form__row">
-                <? $classname = isset($errors['email']) ? 'form__input--error' : ''; ?>
+                <? $classname = isset($errors['password']) ? 'form__input--error' : ''; ?>
                 <label class="form__label" for="password">Пароль <sup>*</sup></label>
                 <input
                     class="form__input <?= $classname; ?>"

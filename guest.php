@@ -16,7 +16,7 @@ $page_content   = include_template('guest.php', []);
 $layout_content = include_template(
     'layout.php',
     [
-        'title' => 'doing is done title',
+        'title' => 'Зарегистрироваться',
         'content' => $page_content
     ]
 );
