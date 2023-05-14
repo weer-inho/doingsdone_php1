@@ -16,6 +16,7 @@ if (!$is_auth) {
 
 $all_filters = ['all', 'today', 'tomorrow', 'expired'];
 $current_filter = reset($all_filters);
+$show_complete_tasks = false;
 
 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
 $projects = get_projects($con);
@@ -25,6 +26,11 @@ if ($project_id === '') {
     echo '<h1>404 error page</h1>';
     die();
 }
+
+if (isset($_GET['show_completed'])) {
+    $show_complete_tasks = boolval($_GET['show_completed']);
+}
+
 $page_content   = include_template(
     'main.php',
     [

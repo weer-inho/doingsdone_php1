@@ -49,7 +49,7 @@
         </div>
         <table class="tasks">
             <? foreach ($tasks as $task):
-                if (!$show_complete_tasks && $task["is_done"] === '0') {
+                if (!$show_complete_tasks && $task["status"] === '1') {
                     continue; // условие на фильтрацию задач по выполненным и нет
                 }
                 if (isset($project_id) && $task["project_id"] != $project_id) {
@@ -57,7 +57,7 @@
                 }
             ?>
                 <tr class="tasks__item task
-                    <?= $task["is_done"] ? 'task--completed' : '' ?>
+                    <?= $task["status"] ? 'task--completed' : '' ?>
                     <?= check_exp_date($task["end_date"]) > 0 ? '' : 'task--important' ?>
                 ">
                     <td class="task__select">
@@ -66,7 +66,7 @@
                                 class="checkbox__input visually-hidden task__checkbox"
                                 type="checkbox"
                                 value="<?= $task["id"] ?>"
-                                <?= $task["is_done"] === '1' ? 'checked' : '' ?>
+                                <?= $task["status"] === '1' ? 'checked' : '' ?>
                             >
                             <span class="checkbox__text"><?= $task["title"] ?></span>
                         </label>

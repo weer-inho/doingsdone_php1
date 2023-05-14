@@ -6,7 +6,7 @@
  */
 function get_query_list_tasks($user_id): string
 {
-    return "SELECT p.title as project_title, t.id, t.status as is_done, t.title, t.end_date, t.file_url, t.project_id FROM tasks t " .
+    return "SELECT p.title as project_title, t.id, t.status, t.title, t.end_date, t.file_url, t.project_id FROM tasks t " .
            "JOIN projects p ON t.project_id = p.id " .
            "WHERE t.author_id = $user_id";
 }
@@ -149,7 +149,7 @@ function get_tasks_by_request($con, $request)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql = "SELECT p.title as project_title, t.status as is_done, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
+        $sql = "SELECT p.title as project_title, t.status, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
                "JOIN projects p ON t.project_id = p.id " .
                "WHERE MATCH(t.title) AGAINST('$request')";
         $result = mysqli_query($con, $sql);
