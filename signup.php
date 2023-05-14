@@ -37,7 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errors[$user_field] = $rule($field_value);
         }
 
-        if (in_array($user_field, $required) and $field_value === '') $errors[$user_field] = "Это поле обязательное!";
+        if (in_array($user_field, $required) and $field_value === '') {
+            $errors[$user_field] = "Это поле обязательное!";
+        }
     }
 
     $errors = array_filter($errors);
@@ -55,8 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $emails     = array_column($users_data, 'email');
         $names      = array_column($users_data, 'user_name');
 
-        if (in_array($user['email'], $emails)) $errors['email'] = "Данный email уже существует!";
-        if (in_array($user['user_name'], $names)) $errors['user_name'] = "Данное имя уже существует!";
+        if (in_array($user['email'], $emails)) {
+            $errors['email'] = "Данный email уже существует!";
+        }
+        if (in_array($user['user_name'], $names)) {
+            $errors['user_name'] = "Данное имя уже существует!";
+        }
         if (count($errors)) {
             $page_content = include_template(
                 'signup.php',

@@ -30,8 +30,12 @@ $page_content   = include_template(
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $project_name = filter_input(INPUT_POST, 'name', FILTER_DEFAULT);
-    if ($project_name === '') $error = "Название проекта не должно быть пустой строкой!";
-    if (in_array($project_name, $project_names)) $error = "Проект с названием '$project_name' уже существует";
+    if ($project_name === '') {
+        $error = "Название проекта не должно быть пустой строкой!";
+    }
+    if (in_array($project_name, $project_names)) {
+        $error = "Проект с названием '$project_name' уже существует";
+    }
     if (isset($error)) {
         $page_content = include_template(
             'addproject.php',

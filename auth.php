@@ -33,13 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($user as $task_field => $field_value) if (isset($rules[$task_field])) {
         $rule = $rules[$task_field];
         $errors[$task_field] = $rule($field_value);
-        if (in_array($task_field, $required) and empty($field_value)) $errors[$task_field] = "Это поле обязательное!";
+        if (in_array($task_field, $required) and empty($field_value)) {
+            $errors[$task_field] = "Это поле обязательное!";
+        }
     }
     $errors = array_filter($errors);
 
     $users_data = get_users($con);
     $emails     = array_column($users_data, 'email');
-    if (!in_array($user['email'], $emails)) $errors['email'] = "Пользователя с такой почтой не существует";
+    if (!in_array($user['email'], $emails)) {
+        $errors['email'] = "Пользователя с такой почтой не существует";
+    }
 
     if ($errors) {
         $page_content = include_template(
