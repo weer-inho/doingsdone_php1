@@ -50,11 +50,10 @@ if (isset($_GET['search'])) {
             'projects'            => $projects,
             'tasks'               => $tasks,
             'project_id'          => $project_id,
-            'search' => $_GET['search']
+            'search'              => $_GET['search']
         ]
     );
 }
-
 $layout_content = include_template(
     'layout.php',
     [

@@ -24,7 +24,7 @@
     <main class="content__main">
         <h2 class="content__main-heading">Список задач</h2>
 
-        <form class="search-form" action="index.php" method="get" autocomplete="off">
+        <form class="search-form" action="" method="get" autocomplete="off">
             <input class="search-form__input" type="text" name="search" value="<?= $search ?? ''; ?>" placeholder="Поиск по задачам">
 
             <input class="search-form__submit" type="submit" name="" value="Искать">
@@ -49,12 +49,10 @@
         </div>
         <table class="tasks">
             <? foreach ($tasks as $task):
-                if (!$show_complete_tasks && $task["is_done"]) {
-                    //echo '!$show_complete_tasks && $task["is_done"]<br>';
+                if (!$show_complete_tasks && $task["is_done"] === '0') {
                     continue;
                 }
-                if (!isset($search) && $project_id !== '' && $task["project_id"] != $project_id) {
-                    //echo '$project_id !== empty && $task["project_id"] != $project_id<br>';
+                if (isset($project_id) && $task["project_id"] != $project_id) {
                     continue;
                 }
             ?>
@@ -68,7 +66,7 @@
                                 class="checkbox__input visually-hidden task__checkbox"
                                 type="checkbox"
                                 value="<?= $task["id"] ?>"
-                                <? $task["is_done"] === 1 ? 'checked' : ''; ?>
+                                <?= $task["is_done"] === '1' ? 'checked' : '' ?>
                             >
                             <span class="checkbox__text"><?= $task["title"] ?></span>
                         </label>
