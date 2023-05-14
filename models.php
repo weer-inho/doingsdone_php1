@@ -149,15 +149,13 @@ function get_tasks_by_request($con, $request)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        //$sql    = "SELECT email, user_name FROM users";
-        $sql = "SELECT p.title as project_title, t.status as is_done, t.title, t.end_date, t.project_id FROM tasks t " .
+        $sql = "SELECT p.title as project_title, t.status as is_done, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
                "JOIN projects p ON t.project_id = p.id " .
                "WHERE MATCH(t.title) AGAINST('$request')";
         $result = mysqli_query($con, $sql);
 
         if ($result) {
-            $users_data = get_arrow($result);
-            return $users_data;
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
         } else {
             return mysqli_error();
         }
