@@ -73,9 +73,8 @@
                             <span class="checkbox__text"><?= $task["title"] ?></span>
                         </label>
                     </td>
-
                     <td class="task__file">
-                        <a class="download-link" href="#"></a>
+                        <a class="download-link" href="<?= isset($task["file_url"]) ? $task["file_url"] : ''; ?>"></a>
                     </td>
 
                     <td class="task__date"><?= $task["end_date"] ?></td>
