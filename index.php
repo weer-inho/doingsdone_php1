@@ -14,6 +14,9 @@ if (!$is_auth) {
     exit();
 }
 
+$all_filters = ['all', 'today', 'tomorrow', 'expired'];
+$current_filter = reset($all_filters);
+
 $project_id = filter_input(INPUT_GET, 'project_id', FILTER_SANITIZE_NUMBER_INT);
 $projects = get_projects($con);
 $tasks = get_tasks($user_id, $con);
@@ -28,6 +31,7 @@ $page_content   = include_template(
         'show_complete_tasks' => $show_complete_tasks,
         'projects'            => $projects,
         'tasks'               => $tasks,
+        'filter'              => $current_filter,
         'project_id'          => $project_id,
     ]
 );
@@ -40,7 +44,20 @@ if (isset($_GET['task_id']) && isset($_GET['check'])) {
         $error = mysqli_error($con);
     }
 }
-
+if (isset($_GET['filter']) && in_array($_GET['filter'], $all_filters)) {
+    $current_filter = $_GET['filter'];
+    $filtered_tasks = filter_tasks($current_filter, $tasks);
+    $page_content   = include_template(
+        'main.php',
+        [
+            'show_complete_tasks' => $show_complete_tasks,
+            'projects'            => $projects,
+            'tasks'               => $filtered_tasks,
+            'filter'              => $current_filter,
+            'project_id'          => $project_id,
+        ]
+    );
+}
 if (isset($_GET['search'])) {
     $tasks = get_tasks_by_request($con, $_GET['search']);
     $page_content   = include_template(
@@ -49,11 +66,13 @@ if (isset($_GET['search'])) {
             'show_complete_tasks' => $show_complete_tasks,
             'projects'            => $projects,
             'tasks'               => $tasks,
+            'filter'              => $current_filter,
             'project_id'          => $project_id,
             'search'              => $_GET['search']
         ]
     );
 }
+
 $layout_content = include_template(
     'layout.php',
     [

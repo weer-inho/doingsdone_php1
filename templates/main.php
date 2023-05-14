@@ -32,10 +32,10 @@
 
         <div class="tasks-controls">
             <nav class="tasks-switch">
-                <a href="/" class="tasks-switch__item tasks-switch__item--active">Все задачи</a>
-                <a href="/" class="tasks-switch__item">Повестка дня</a>
-                <a href="/" class="tasks-switch__item">Завтра</a>
-                <a href="/" class="tasks-switch__item">Просроченные</a>
+                <a href="/?filter=all" class="tasks-switch__item <? if ($filter === 'all'): ?> tasks-switch__item--active <? endif; ?>">Все задачи</a>
+                <a href="/?filter=today" class="tasks-switch__item <? if ($filter === 'today'): ?> tasks-switch__item--active <? endif; ?>">Повестка дня</a>
+                <a href="/?filter=tomorrow" class="tasks-switch__item <? if ($filter === 'tomorrow'): ?> tasks-switch__item--active <? endif; ?>">Завтра</a>
+                <a href="/?filter=expired" class="tasks-switch__item <? if ($filter === 'expired'): ?> tasks-switch__item--active <? endif; ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">
@@ -50,10 +50,10 @@
         <table class="tasks">
             <? foreach ($tasks as $task):
                 if (!$show_complete_tasks && $task["is_done"] === '0') {
-                    continue;
+                    continue; // условие на фильтрацию задач по выполненным и нет
                 }
                 if (isset($project_id) && $task["project_id"] != $project_id) {
-                    continue;
+                    continue; // условие на фильтрацию задач по проектам
                 }
             ?>
                 <tr class="tasks__item task

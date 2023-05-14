@@ -35,3 +35,34 @@ function validate_title($title) {
 function validate_email($email) {
     return !filter_var($email, FILTER_VALIDATE_EMAIL) ? "Введите корректный email" : null;
 }
+
+/**
+ * Filter tasks by date.
+ *
+ * @param array $tasks The array of tasks with "end_date" field.
+ * @param string $date The desired date to filter tasks ('today', 'yesterday', or 'tomorrow').
+ * @return array The filtered tasks.
+ */
+function filter_tasks(string $filter, array $tasks):array {
+    if ($filter === 'all') {
+        return $tasks;
+    }
+
+    $filtered_tasks = [];
+    $todayTimestamp = strtotime('today');
+    $tomorrowTimestamp = strtotime('tomorrow');
+
+    foreach ($tasks as $task) {
+        $endDateTimestamp = strtotime($task['end_date']);
+
+        if ($filter === 'expired' && $endDateTimestamp < $todayTimestamp) {
+            $filtered_tasks[] = $task;
+        } elseif ($filter === 'today' && $endDateTimestamp === $todayTimestamp) {
+            $filtered_tasks[] = $task;
+        } elseif ($filter === 'tomorrow' && $endDateTimestamp === $tomorrowTimestamp) {
+            $filtered_tasks[] = $task;
+        }
+    }
+
+    return $filtered_tasks;
+}
