@@ -7,6 +7,7 @@ require_once('models.php');
 
 /** @var TYPE_NAME $con */
 /** @var TYPE_NAME $user_id */
+/** @var TYPE_NAME $is_auth */
 
 if ($is_auth) {
     header("Location: /");
@@ -29,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'password'  => FILTER_DEFAULT,
         'user_name' => FILTER_DEFAULT
     ]);
-
 
     foreach ($user as $user_field => $field_value) {
         if (isset($rules[$user_field])) {

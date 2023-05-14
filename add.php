@@ -7,6 +7,7 @@ require_once('models.php');
 
 /** @var TYPE_NAME $con */
 /** @var TYPE_NAME $user_id */
+/** @var TYPE_NAME $is_auth */
 
 if (!$is_auth) {
     header("Location: /guest.php");
@@ -15,7 +16,6 @@ if (!$is_auth) {
 
 $projects    = get_projects($con);
 $project_ids = array_column($projects, 'id');
-
 $tasks = get_tasks($user_id, $con);
 
 $page_content = include_template(
@@ -51,7 +51,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $errors = array_filter($errors);
-
 
     if (!empty($_FILES['file']['name'])) {
         $tmp_name = $_FILES['file']['tmp_name'];

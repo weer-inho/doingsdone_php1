@@ -5,6 +5,8 @@ require_once('data.php');
 require_once('functions.php');
 require_once('models.php');
 
+/** @var TYPE_NAME $is_auth */
+
 if ($is_auth) {
     header("Location: /");
     exit();

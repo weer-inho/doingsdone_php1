@@ -26,7 +26,7 @@
                 </a>
 
                 <div class="main-header__side">
-                    <a class="main-header__side-item button button--plus open-modal" href="pages/form-task.html">Добавить
+                    <a class="main-header__side-item button button--plus open-modal" href="/add.php">Добавить
                         задачу</a>
 
                     <div class="main-header__side-item user-menu">
@@ -64,7 +64,7 @@
         </div>
 
         <? if (!empty($_SESSION)): ?>
-            <a class="main-footer__button button button--plus" href="pages/form-task.html">Добавить задачу</a>
+            <a class="main-footer__button button button--plus" href="/add.php">Добавить задачу</a>
         <? endif; ?>
 
         <div class="main-footer__social social">

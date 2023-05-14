@@ -8,6 +8,7 @@ require_once('models.php');
 /** @var TYPE_NAME $user */
 /** @var TYPE_NAME $errors */
 /** @var TYPE_NAME $con */
+/** @var TYPE_NAME $is_auth */
 
 if ($is_auth) {
     header("Location: /");
