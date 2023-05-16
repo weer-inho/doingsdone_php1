@@ -162,3 +162,20 @@ function check_exp_date(string $date) {
 
     return $date - $tomorrow;
 }
+
+/**
+ * Рассчитывает оставшееся время до определенной даты
+ * @param string $deadline дата окончания выполнения задачи
+ * @return int $diff разница в часах c текущим временем
+ */
+function get_time_left($deadline)
+{
+    $endTime = strtotime($deadline);
+    $nowTime = strtotime("now");//time();
+
+    $diff = floor(($endTime - $nowTime) / 3600);
+
+    //file_put_contents("log.txt", "\ndiff=$diff", FILE_APPEND); // отладочная печать
+
+    return $diff;
+}
