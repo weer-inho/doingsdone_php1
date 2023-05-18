@@ -1,0 +1,12 @@
+{
+    "name": "kzs18/doingsdone",
+    "authors": [
+        {
+            "name": "ruslan"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.3",
+        "symfony/mailer": "^6.0"
+    }
+}
