@@ -65,18 +65,21 @@ if (isset($_GET['filter']) && in_array($_GET['filter'], $all_filters)) {
     );
 }
 if (isset($_GET['search'])) {
-    $tasks = get_tasks_by_request($con, $_GET['search']);
-    $page_content   = include_template(
-        'main.php',
-        [
-            'show_complete_tasks' => $show_complete_tasks,
-            'projects'            => $projects,
-            'tasks'               => $tasks,
-            'filter'              => $current_filter,
-            'project_id'          => $project_id,
-            'search'              => $_GET['search']
-        ]
-    );
+    $search_request = filter_input(INPUT_GET, 'search');
+    if (trim($search_request) !== '') {
+        $tasks = get_tasks_by_request($con, $search_request);
+        $page_content   = include_template(
+            'main.php',
+            [
+                'show_complete_tasks' => $show_complete_tasks,
+                'projects'            => $projects,
+                'tasks'               => $tasks,
+                'filter'              => $current_filter,
+                'project_id'          => $project_id,
+                'search'              => $search_request,
+            ]
+        );
+    }
 }
 
 $layout_content = include_template(
