@@ -4,16 +4,16 @@
 
         <nav class="main-navigation">
             <ul class="main-navigation__list">
-                <? foreach ($projects as $project): ?>
+                <?php foreach ($projects as $project): ?>
                     <li class="main-navigation__list-item">
                         <a
-                                class="main-navigation__list-item-link <? if ($project['id'] === $project_id): ?> main-navigation__list-item--active<? endif; ?>"
+                                class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                                 href=" /?project_id=<?= $project['id'] ?>">
                             <?= $project['title'] ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         </nav>
 
@@ -47,9 +47,9 @@
                     name="project_id"
                     id="project"
                 >
-                    <? foreach ($projects as $project): ?>
+                    <?php foreach ($projects as $project): ?>
                         <option value="<?= $project['id'] ?>" checked="<?= isset($task['project_id']) && $project['id'] === $task['project_id']; ?>"><?= $project['title'] ?></option>
-                    <? endforeach; ?>
+                    <?php endforeach; ?>
                 </select>
                 <p class="form__message"><?= $errors['project_id'] ?? ''; ?></p>
             </div>

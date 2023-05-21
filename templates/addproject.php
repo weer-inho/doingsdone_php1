@@ -4,16 +4,16 @@
 
         <nav class="main-navigation">
             <ul class="main-navigation__list">
-                <? foreach ($projects as $project): ?>
+                <?php foreach ($projects as $project): ?>
                     <li class="main-navigation__list-item">
                         <a
-                            class="main-navigation__list-item-link <? if ($project['id'] === $project_id): ?> main-navigation__list-item--active<? endif; ?>"
+                            class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                             href="?project_id=<?= $project['id'] ?>">
                             <?= $project['title'] ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         </nav>
 
@@ -24,7 +24,7 @@
         <h2 class="content__main-heading">Добавление проекта</h2>
 
         <form class="form"  action="" method="post" autocomplete="off">
-            <? $classname = isset($error) ? 'form__input--error' : ''; ?>
+            <?php $classname = isset($error) ? 'form__input--error' : ''; ?>
             <div class="form__row">
                 <label class="form__label" for="project_name">Название <sup>*</sup></label>
 

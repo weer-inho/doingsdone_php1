@@ -29,7 +29,7 @@ if ($project_id === '') {
 }
 
 if (isset($_GET['show_completed'])) {
-    $show_complete_tasks = boolval($_GET['show_completed']);
+    $show_complete_tasks = boolval(filter_input(INPUT_GET, 'show_completed'));
 }
 
 $page_content = include_template(
@@ -44,7 +44,8 @@ $page_content = include_template(
 );
 
 if (isset($_GET['task_id']) && isset($_GET['check'])) {
-    $res = change_task_status($con, $_GET['task_id']);
+    $task_id = filter_input(INPUT_GET, 'task_id');
+    $res = change_task_status($con, $task_id);
     if ($res) {
         header("Location: /");
     } else {
@@ -52,7 +53,7 @@ if (isset($_GET['task_id']) && isset($_GET['check'])) {
     }
 }
 if (isset($_GET['filter']) && in_array($_GET['filter'], $all_filters)) {
-    $current_filter = $_GET['filter'];
+    $current_filter = filter_input(INPUT_GET, 'filter');
     $filtered_tasks = filter_tasks($current_filter, $tasks);
     $page_content   = include_template(
         'main.php',
