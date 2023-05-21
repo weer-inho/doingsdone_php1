@@ -8,7 +8,8 @@ require_once('helpers.php');
  * @param string $project_id Идентификатор проекта, количество задач которого надо посчитать
  * @return int Количество задач по этому проекту
  */
-function count_tasks(array $tasks_array, string $project_id):int {
+function count_tasks(array $tasks_array, string $project_id): int
+{
     $result = 0;
     foreach ($tasks_array as $task) {
         if ($task["project_id"] === $project_id) {
@@ -19,7 +20,8 @@ function count_tasks(array $tasks_array, string $project_id):int {
     return $result;
 }
 
-function validate_date(string $end_date) {
+function validate_date(string $end_date)
+{
     if (!is_date_valid($end_date)) {
         return "Должна быть в формате ГГГГ-ММ-ДД";
     }
@@ -32,15 +34,18 @@ function validate_date(string $end_date) {
     }
 }
 
-function validate_project($project_id, array $project_ids) {
+function validate_project($project_id, array $project_ids)
+{
     return in_array($project_id, $project_ids) ? null : "Такой категории не существует";
 }
 
-function validate_title($title) {
+function validate_title($title)
+{
     return is_string($title) && trim($title) !== '' ? null : "Название задачи не должно быть пустым";
 }
 
-function validate_email($email) {
+function validate_email($email)
+{
     return !filter_var($email, FILTER_VALIDATE_EMAIL) ? "Введите корректный email" : null;
 }
 
@@ -51,13 +56,14 @@ function validate_email($email) {
  * @param string $date The desired date to filter tasks ('today', 'yesterday', or 'tomorrow').
  * @return array The filtered tasks.
  */
-function filter_tasks(string $filter, array $tasks):array {
+function filter_tasks(string $filter, array $tasks): array
+{
     if ($filter === 'all') {
         return $tasks;
     }
 
-    $filtered_tasks = [];
-    $todayTimestamp = strtotime('today');
+    $filtered_tasks    = [];
+    $todayTimestamp    = strtotime('today');
     $tomorrowTimestamp = strtotime('tomorrow');
 
     foreach ($tasks as $task) {

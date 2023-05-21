@@ -16,15 +16,15 @@ if (!$is_auth) {
     exit();
 }
 
-$projects = get_projects($con);
+$projects      = get_projects($con);
 $project_names = array_column($projects, 'title');
-$tasks = get_tasks($user_id, $con);
+$tasks         = get_tasks($user_id, $con);
 
-$page_content   = include_template(
+$page_content = include_template(
     'addproject.php',
     [
-        'projects'            => $projects,
-        'tasks'               => $tasks,
+        'projects' => $projects,
+        'tasks'    => $tasks,
     ]
 );
 
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     if (in_array(mb_strtolower($project_name), array_map('mb_strtolower', $project_names))) {
         $existed_project_index = array_search(mb_strtolower($project_name), array_map('mb_strtolower', $project_names));
-        $error = "Проект с названием '$project_names[$existed_project_index]' уже существует";
+        $error                 = "Проект с названием '$project_names[$existed_project_index]' уже существует";
     }
     if (isset($error)) {
         $page_content = include_template(

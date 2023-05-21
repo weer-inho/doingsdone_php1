@@ -20,8 +20,7 @@ function get_tasks($user_id, $con)
     $result_tasks = mysqli_query($con, $sql_tasks);
     if ($result_tasks) {
         return mysqli_fetch_all($result_tasks, MYSQLI_ASSOC);
-    }
-    else {
+    } else {
         return mysqli_error();
     }
 }
@@ -31,11 +30,13 @@ function get_tasks($user_id, $con)
  * @param integer $user_id id пользователя
  * @return string SQL-запрос
  */
-function get_query_create_task($user_id):string {
+function get_query_create_task($user_id): string
+{
     return "INSERT INTO tasks (title, project_id, end_date, file_url, author_id, status) VALUES (?, ?, ?, ?, $user_id, 0)";
 }
 
-function get_query_create_project($user_id):string {
+function get_query_create_project($user_id): string
+{
     return "INSERT INTO projects (title, author_id) VALUES (?, $user_id)";
 }
 
@@ -44,7 +45,8 @@ function get_query_create_project($user_id):string {
  * @param integer $user_id id пользователя
  * @return string SQL-запрос
  */
-function get_query_create_user():string {
+function get_query_create_user(): string
+{
     return "INSERT INTO users (email, password, user_name, register_date) VALUES (?, ?, ?, NOW())";
 }
 
@@ -54,7 +56,7 @@ function get_query_create_user():string {
  * @return array $error Описание последней ошибки подключения
  * @return array $categories Ассоциативный массив с проектами
  */
-function get_projects($con):array
+function get_projects($con): array
 {
     if (!$con) {
         return mysqli_connect_error();
@@ -76,7 +78,7 @@ function get_projects($con):array
  * @return array $error Описание последней ошибки подключения
  * @return array $categories Массив пользователей
  */
-function get_users($con):array
+function get_users($con): array
 {
     if (!$con) {
         return mysqli_connect_error();
@@ -149,9 +151,9 @@ function get_tasks_by_request($con, $request)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql = "SELECT p.title as project_title, t.status, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
-               "JOIN projects p ON t.project_id = p.id " .
-               "WHERE MATCH(t.title) AGAINST('$request')";
+        $sql    = "SELECT p.title as project_title, t.status, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
+                  "JOIN projects p ON t.project_id = p.id " .
+                  "WHERE MATCH(t.title) AGAINST('$request')";
         $result = mysqli_query($con, $sql);
 
         if ($result) {
@@ -179,7 +181,8 @@ function get_arrow($result_query)
     return $arrow;
 }
 
-function change_task_status($con, $task_id){
+function change_task_status($con, $task_id)
+{
     if (!$con) {
         return mysqli_connect_error();
     } else {

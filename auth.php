@@ -19,13 +19,13 @@ $page_content = include_template('auth.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['email', 'password'];
-    $errors = [];
-    $rules = [
+    $errors   = [];
+    $rules    = [
         'email' => function ($email) {
             return validate_email($email);
         },
     ];
-    $user = filter_input_array(INPUT_POST, [
+    $user     = filter_input_array(INPUT_POST, [
         'email'    => FILTER_DEFAULT,
         'password' => FILTER_DEFAULT,
     ]);
@@ -56,13 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_password = get_password_by_email($con, $user['email']);
         if (!password_verify($user['password'], $user_password)) {
             $errors['password'] = "Неверный пароль";
-            $page_content = include_template(
+            $page_content       = include_template(
                 'auth.php',
                 ['user' => $user, 'errors' => $errors]
             );
         } else {
             session_start();
-            $_SESSION['name'] = get_name_by_email($con, $user['email']);
+            $_SESSION['name']    = get_name_by_email($con, $user['email']);
             $_SESSION['user_id'] = get_id_by_email($con, $user['email']);
             header("Location: /");
         }
@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $layout_content = include_template(
     'layout.php',
     [
-        'title' => 'doing is done title',
+        'title'   => 'doing is done title',
         'content' => $page_content
     ]
 );

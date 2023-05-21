@@ -16,7 +16,7 @@ if (!$is_auth) {
 
 $projects    = get_projects($con);
 $project_ids = array_column($projects, 'id');
-$tasks = get_tasks($user_id, $con);
+$tasks       = get_tasks($user_id, $con);
 
 $page_content = include_template(
     'add.php',

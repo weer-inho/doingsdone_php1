@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if ($res) {
                 session_start();
-                $_SESSION['name'] = get_name_by_email($con, $user['email']);
+                $_SESSION['name']    = get_name_by_email($con, $user['email']);
                 $_SESSION['user_id'] = get_id_by_email($con, $user['email']);
                 header("Location: /");
             } else {

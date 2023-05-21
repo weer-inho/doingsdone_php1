@@ -13,9 +13,10 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-function is_date_valid(string $date) : bool {
+function is_date_valid(string $date): bool
+{
     $format_to_check = 'Y-m-d';
-    $dateTimeObj = date_create_from_format($format_to_check, $date);
+    $dateTimeObj     = date_create_from_format($format_to_check, $date);
 
     return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }
@@ -29,7 +30,8 @@ function is_date_valid(string $date) : bool {
  *
  * @return mysqli_stmt Подготовленное выражение
  */
-function db_get_prepare_stmt($link, $sql, $data = []) {
+function db_get_prepare_stmt($link, $sql, $data = [])
+{
     echo '<pre>';
     var_export($data);
     echo '</pre><br>';
@@ -45,7 +47,7 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
     }
 
     if ($data) {
-        $types = '';
+        $types     = '';
         $stmt_data = [];
 
         foreach ($data as $value) {
@@ -53,16 +55,14 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
 
             if (is_int($value)) {
                 $type = 'i';
-            }
-            else if (is_string($value)) {
+            } else if (is_string($value)) {
                 $type = 's';
-            }
-            else if (is_double($value)) {
+            } else if (is_double($value)) {
                 $type = 'd';
             }
 
             if ($type) {
-                $types .= $type;
+                $types       .= $type;
                 $stmt_data[] = $value;
             }
         }
@@ -103,10 +103,10 @@ function db_get_prepare_stmt($link, $sql, $data = []) {
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form (int $number, string $one, string $two, string $many): string
+function get_noun_plural_form(int $number, string $one, string $two, string $many): string
 {
-    $number = (int) $number;
-    $mod10 = $number % 10;
+    $number = (int)$number;
+    $mod10  = $number % 10;
     $mod100 = $number % 100;
 
     switch (true) {
@@ -133,8 +133,9 @@ function get_noun_plural_form (int $number, string $one, string $two, string $ma
  * @param array $data Ассоциативный массив с данными для шаблона
  * @return string Итоговый HTML
  */
-function include_template($name, array $data = []) {
-    $name = 'templates/' . $name;
+function include_template($name, array $data = [])
+{
+    $name   = 'templates/' . $name;
     $result = '';
 
     if (!is_readable($name)) {
@@ -155,10 +156,11 @@ function include_template($name, array $data = []) {
  * @param string $date Дата в виде строки
  * @return bool Ответ
  */
-function check_exp_date(string $date) {
+function check_exp_date(string $date)
+{
     date_default_timezone_set('Europe/Moscow');
     $tomorrow = strtotime("+1 day");
-    $date = strtotime($date);
+    $date     = strtotime($date);
 
     return $date - $tomorrow;
 }

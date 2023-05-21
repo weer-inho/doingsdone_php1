@@ -6,9 +6,9 @@ use Symfony\Component\Mime\Email;
 
 require('vendor/autoload.php');
 require_once('init.php');
-require_once ('data.php');
-require_once ('models.php');
-require_once ('helpers.php');
+require_once('data.php');
+require_once('models.php');
+require_once('helpers.php');
 require_once('config/config.php');
 
 /** @var TYPE_NAME $log */
@@ -57,42 +57,42 @@ if ($res1) {
     print("Ошибка1: $error");
 }
 
-$mess = [];
+$messages = [];
 // 3. идем циклом по массиву записок
-foreach ($notes as $k => $v) {
+foreach ($notes as $note_index => $note_value) {
     // 3.1 форматируем дедлайн в формат день-месяц-год
-    $date = date_format(date_create($v['end_date']), 'd-m-Y');
+    $date = date_format(date_create($note_value['end_date']), 'd-m-Y');
 
     // 3.2 если в массиве записок несколько сгорающих задач для одного пользователя
-    if ($k > 0 && $v['user_name'] === $notes[$k - 1]['user_name']) {
+    if ($note_index > 0 && $note_value['user_name'] === $notes[$note_index - 1]['user_name']) {
         // 3.3 в одну сообщение запихиваем упоминания нескольких задач
-        $mess[$v['user_name']] .= "А также задача «" . $v['title'] . "» на $date.\n";
-        $email[$v['user_name']] = $notes[$k - 1]['email'];
+        $messages[$note_value['user_name']]  .= "А также задача «" . $note_value['title'] . "» на $date.\n";
+        $email[$note_value['user_name']] = $notes[$note_index - 1]['email'];
     } else {
         // 3.4 если у пользователя только одна задача - одно сообщение с одной задачей
-        $mess[$v['user_name']] = "Уважаемый, " . $v['user_name'] . ".\nУ вас запланирована задача «" .
-                                 $v['title'] . "» на $date.\n";
-        $emailto[$v['user_name']] = $notes[$k]['email'];
+        $messages[$note_value['user_name']]    = "Уважаемый, " . $note_value['user_name'] . ".\nУ вас запланирована задача «" .
+                                    $note_value['title'] . "» на $date.\n";
+        $emailto[$note_value['user_name']] = $notes[$note_index]['email'];
     }
 }
 
 // 4. настраиваем соединение с smtp-сервером, авторизируемся
-$dsn = "smtp://$log:$pass@smtp.yandex.ru:465?encryption=SSL";
+$dsn       = "smtp://$log:$pass@smtp.yandex.ru:465?encryption=SSL";
 $transport = new Swift_SmtpTransport('smtp.yandex.ru', 465, 'ssl');
 $transport->getAuthMode();
 
-$dsn = "smtp://$log:$pass@smtp.yandex.ru:465?encryption=SSL";
+$dsn       = "smtp://$log:$pass@smtp.yandex.ru:465?encryption=SSL";
 $transport = Transport::fromDsn($dsn);
-$mailer = new Mailer($transport);
+$mailer    = new Mailer($transport);
 
-foreach ($mess as $k => $mes) {
-    $mailto = $emailto[$k];
+foreach ($messages as $index => $message) {
+    $mailto = $emailto[$index];
 
     $email = (new Email())
         ->to("$mailto")
         ->from("$mailfrom")
         ->subject("Уведомление от сервиса «Дела в порядке»")
-        ->text("$mes");
+        ->text("$message");
     // Отправка сообщения
     $mailer->send($email);
     echo 'отправил: ' . $mailto . PHP_EOL;
