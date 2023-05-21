@@ -10,19 +10,26 @@ require_once('helpers.php');
  */
 function count_tasks(array $tasks_array, string $project_id):int {
     $result = 0;
-    foreach ($tasks_array as $task) if ($task["project_id"] === $project_id) {
-        $result++;
+    foreach ($tasks_array as $task) {
+        if ($task["project_id"] === $project_id) {
+            $result++;
+        }
     }
 
     return $result;
 }
 
 function validate_date(string $end_date) {
-    if (!is_date_valid($end_date)) return "Должна быть в формате ГГГГ-ММ-ДД";
+    if (!is_date_valid($end_date)) {
+        return "Должна быть в формате ГГГГ-ММ-ДД";
+    }
     $today    = strtotime(date('Y-m-d'));
     $exp_date = strtotime($end_date);
-    if ($today < $exp_date) return null;
-    else return "Должна быть дальше сегодняшнего дня";
+    if ($today < $exp_date) {
+        return null;
+    } else {
+        return "Должна быть дальше сегодняшнего дня";
+    }
 }
 
 function validate_project($project_id, array $project_ids) {
