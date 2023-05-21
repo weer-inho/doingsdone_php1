@@ -77,7 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $res              = mysqli_stmt_execute($stmt);
 
             if ($res) {
-                header("Location: /auth.php");
+                session_start();
+                $_SESSION['name'] = get_name_by_email($con, $user['email']);
+                $_SESSION['user_id'] = get_id_by_email($con, $user['email']);
+                header("Location: /");
             } else {
                 $error = mysqli_error($con);
             }
