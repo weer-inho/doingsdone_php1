@@ -34,8 +34,9 @@
                     name="name"
                     id="project_name"
                     value="<?= $project_name ?? ''; ?>"
-                    placeholder="<?= $error ?? 'Введите название проекта'; ?>"
+                    placeholder="Введите название проекта"
                 >
+                <p class="form__message"><?= $error ?? ''; ?></p>
             </div>
 
             <div class="form__row form__row--controls">
