@@ -33,8 +33,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($project_name === '') {
         $error = "Название проекта не должно быть пустой строкой!";
     }
-    if (in_array($project_name, $project_names)) {
-        $error = "Проект с названием '$project_name' уже существует";
+    if (in_array(mb_strtolower($project_name), array_map('mb_strtolower', $project_names))) {
+        $existed_project_index = array_search(mb_strtolower($project_name), array_map('mb_strtolower', $project_names));
+        $error = "Проект с названием '$project_names[$existed_project_index]' уже существует";
     }
     if (isset($error)) {
         $page_content = include_template(

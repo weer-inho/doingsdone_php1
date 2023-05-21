@@ -77,7 +77,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($errors) {
-        var_dump($errors);
         $page_content = include_template(
             'add.php',
             [
