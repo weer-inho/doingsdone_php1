@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ];
 
     $user = filter_input_array(INPUT_POST, [
-        'email'     => FILTER_DEFAULT,
+        'email'     => FILTER_VALIDATE_EMAIL,
         'password'  => FILTER_DEFAULT,
         'user_name' => FILTER_DEFAULT
     ]);
