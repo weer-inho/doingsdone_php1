@@ -18,11 +18,11 @@ function count_tasks(array $tasks_array, string $project_id):int {
 }
 
 function validate_date(string $end_date) {
-    if (!is_date_valid($end_date)) return "Дата выполнения должна быть в формате ГГГГ-ММ-ДД";
+    if (!is_date_valid($end_date)) return "Должна быть в формате ГГГГ-ММ-ДД";
     $today    = strtotime(date('Y-m-d'));
     $exp_date = strtotime($end_date);
     if ($today < $exp_date) return null;
-    else return "Дата выполнения должна быть дальше сегоднящнего дня";
+    else return "Должна быть дальше сегодняшнего дня";
 }
 
 function validate_project($project_id, array $project_ids) {

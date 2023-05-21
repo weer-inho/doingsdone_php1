@@ -36,6 +36,7 @@
                     value="<?= $task['title'] ?? ''; ?>"
                     placeholder="Введите название"
                 >
+                <p class="form__message"><?= $errors['title'] ?? ''; ?></p>
             </div>
 
             <div class="form__row">
@@ -50,10 +51,11 @@
                         <option value="<?= $project['id'] ?>" checked="<?= isset($task['project_id']) && $project['id'] === $task['project_id']; ?>"><?= $project['title'] ?></option>
                     <? endforeach; ?>
                 </select>
+                <p class="form__message"><?= $errors['project_id'] ?? ''; ?></p>
             </div>
 
             <div class="form__row">
-                <?php $classname = isset($errors['title']) ? "form__input--error" : ""; ?>
+                <?php $classname = isset($errors['end_date']) ? "form__input--error" : ""; ?>
                 <label class="form__label" for="date">Дата выполнения</label>
                 <input
                     class="form__input form__input--date <?= $classname; ?>"
@@ -63,6 +65,7 @@
                     value="<?= $task['end_date'] ?? ''; ?>"
                     placeholder="Введите дату в формате ГГГГ-ММ-ДД"
                 >
+                <p class="form__message"><?= $errors['end_date'] ?? ''; ?></p>
             </div>
 
             <div class="form__row">

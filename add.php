@@ -27,9 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $required = ['title', 'project_id'];
     $errors   = [];
     $rules    = [
-        'end_date'   => function ($end_date) {
-            return validate_date($end_date);
-        },
         'project_id' => function ($project_id) use ($project_ids) {
             return validate_project($project_id, $project_ids);
         },
@@ -52,6 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $errors[$task_field] = "Это поле обязательное!";
             }
         }
+    }
+
+    if ($task['end_date'] !== '') {
+        $errors['end_date'] = validate_date($task['end_date']);
     }
 
     $errors = array_filter($errors);
