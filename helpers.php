@@ -177,7 +177,5 @@ function get_time_left($deadline)
 
     $diff = floor(($endTime - $nowTime) / 3600);
 
-    //file_put_contents("log.txt", "\ndiff=$diff", FILE_APPEND); // отладочная печать
-
     return $diff;
 }
