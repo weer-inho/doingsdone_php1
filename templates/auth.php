@@ -10,7 +10,7 @@
         <h2 class="content__main-heading">Вход на сайт</h2>
 
         <form class="form" action="" method="post" autocomplete="off">
-            <? $classname = isset($errors['email']) ? 'form__input--error' : ''; ?>
+            <?php $classname = isset($errors['email']) ? 'form__input--error' : ''; ?>
             <div class="form__row">
                 <label class="form__label" for="email">E-mail <sup>*</sup></label>
                 <input
@@ -25,7 +25,7 @@
             </div>
 
             <div class="form__row">
-                <? $classname = isset($errors['password']) ? 'form__input--error' : ''; ?>
+                <?php $classname = isset($errors['password']) ? 'form__input--error' : ''; ?>
                 <label class="form__label" for="password">Пароль <sup>*</sup></label>
                 <input
                     class="form__input <?= $classname; ?>"

@@ -4,16 +4,16 @@
 
         <nav class="main-navigation">
             <ul class="main-navigation__list">
-                <? foreach ($projects as $project): ?>
+                <?php foreach ($projects as $project): ?>
                     <li class="main-navigation__list-item">
                         <a
-                            class="main-navigation__list-item-link <? if ($project['id'] === $project_id): ?> main-navigation__list-item--active<? endif; ?>"
+                            class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                             href="?project_id=<?= $project['id'] ?>">
                             <?= $project['title'] ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
-                <? endforeach; ?>
+                <?php endforeach; ?>
             </ul>
         </nav>
 
@@ -32,10 +32,10 @@
 
         <div class="tasks-controls">
             <nav class="tasks-switch">
-                <a href="/?filter=all" class="tasks-switch__item <? if ($filter === 'all'): ?> tasks-switch__item--active <? endif; ?>">Все задачи</a>
-                <a href="/?filter=today" class="tasks-switch__item <? if ($filter === 'today'): ?> tasks-switch__item--active <? endif; ?>">Повестка дня</a>
-                <a href="/?filter=tomorrow" class="tasks-switch__item <? if ($filter === 'tomorrow'): ?> tasks-switch__item--active <? endif; ?>">Завтра</a>
-                <a href="/?filter=expired" class="tasks-switch__item <? if ($filter === 'expired'): ?> tasks-switch__item--active <? endif; ?>">Просроченные</a>
+                <a href="/?filter=all" class="tasks-switch__item <?php if ($filter === 'all'): ?> tasks-switch__item--active <?php endif; ?>">Все задачи</a>
+                <a href="/?filter=today" class="tasks-switch__item <?php if ($filter === 'today'): ?> tasks-switch__item--active <?php endif; ?>">Повестка дня</a>
+                <a href="/?filter=tomorrow" class="tasks-switch__item <?php if ($filter === 'tomorrow'): ?> tasks-switch__item--active <?php endif; ?>">Завтра</a>
+                <a href="/?filter=expired" class="tasks-switch__item <?php if ($filter === 'expired'): ?> tasks-switch__item--active <?php endif; ?>">Просроченные</a>
             </nav>
 
             <label class="checkbox">
@@ -48,7 +48,7 @@
             </label>
         </div>
         <table class="tasks">
-            <? foreach ($tasks as $task):
+            <?php foreach ($tasks as $task):
                 if (!$show_complete_tasks && $task["status"] === '1') {
                     continue; // условие на фильтрацию задач по выполненным и нет
                 }
@@ -77,7 +77,7 @@
 
                     <td class="task__date"><?= $task["end_date"] ?></td>
                 </tr>
-            <? endforeach; ?>
+            <?php endforeach; ?>
         </table>
     </main>
 </div>
