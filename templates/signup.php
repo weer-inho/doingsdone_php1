@@ -25,7 +25,8 @@
                 <label class="form__label" for="password">Пароль <sup>*</sup></label>
                 <input class="form__input <?= $classname; ?>" type="password" name="password" id="password"
                        value="<?= $user['password'] ?? ''; ?>"
-                       placeholder="Введите пароль">
+                       placeholder="Введите пароль"
+                       maxlength="10">
             </div>
 
             <?php $classname = isset($errors['user_name']) ? 'form__input--error' : ''; ?>

@@ -5,7 +5,7 @@ CREATE TABLE users
 (
     id            INT AUTO_INCREMENT PRIMARY KEY,
     email         VARCHAR(128) NOT NULL UNIQUE,
-    password      CHAR(12),
+    password      CHAR(128),
     user_name     VARCHAR(128),
     register_date DATETIME DEFAULT CURRENT_TIMESTAMP
 );
