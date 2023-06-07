@@ -9,7 +9,7 @@
                         <a
                             class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                             href="?project_id=<?= $project['id'] ?>">
-                            <?= $project['title'] ?>
+                            <?= htmlspecialchars($project['title']) ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
@@ -33,7 +33,7 @@
                     type="text"
                     name="name"
                     id="project_name"
-                    value="<?= $project_name ?? ''; ?>"
+                    value="<?= isset($project_name) ? htmlspecialchars($project_name) : ''; ?>"
                     placeholder="Введите название проекта"
                 >
                 <p class="form__message"><?= $error ?? ''; ?></p>

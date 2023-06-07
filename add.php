@@ -81,9 +81,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $page_content = include_template(
             'add.php',
             [
-                'errors'   => $errors,
-                'projects' => $projects,
-                'tasks'    => $tasks
+                'errors'    => $errors,
+                'projects'  => $projects,
+                'task'      => $task,
+                'tasks'     => $tasks,
+
             ]
         );
     } else {
@@ -103,7 +105,9 @@ $layout_content = include_template(
     'layout.php',
     [
         'title'   => 'doing is done title',
-        'content' => $page_content
+        'content' => $page_content,
+        'user_name' => $user_name,
+
     ]
 );
 print($layout_content);

@@ -18,7 +18,7 @@
                     type="text"
                     name="email"
                     id="email"
-                    value="<?= $user['email'] ?? ''; ?>"
+                    value="<?= isset($user['email']) ? htmlspecialchars($user['email']) : ''; ?>"
                     placeholder="Введите e-mail"
                 >
                 <p class="form__message"><?= $errors['email'] ?? ''; ?></p>
@@ -32,7 +32,7 @@
                     type="password"
                     name="password"
                     id="password"
-                    value="<?= $user['password'] ?? ''; ?>"
+                    value="<?= isset($user['password']) ? htmlspecialchars($user['password']) : ''; ?>"
                     placeholder="Введите пароль"
                 >
             </div>

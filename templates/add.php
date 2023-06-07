@@ -9,7 +9,7 @@
                         <a
                                 class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                                 href=" /?project_id=<?= $project['id'] ?>">
-                            <?= $project['title'] ?>
+                            <?= htmlspecialchars($project['title']) ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
@@ -33,7 +33,7 @@
                     type="text"
                     name="title"
                     id="name"
-                    value="<?= $task['title'] ?? ''; ?>"
+                    value="<?= isset($task['title']) ? htmlspecialchars($task['title']) : ''; ?>"
                     placeholder="Введите название"
                 >
                 <p class="form__message"><?= $errors['title'] ?? ''; ?></p>
@@ -48,7 +48,9 @@
                     id="project"
                 >
                     <?php foreach ($projects as $project): ?>
-                        <option value="<?= $project['id'] ?>" checked="<?= isset($task['project_id']) && $project['id'] === $task['project_id']; ?>"><?= $project['title'] ?></option>
+                        <option value="<?= $project['id'] ?>" checked="<?= isset($task['project_id']) && $project['id'] === $task['project_id']; ?>">
+                            <?= htmlspecialchars($project['title']) ?>
+                        </option>
                     <?php endforeach; ?>
                 </select>
                 <p class="form__message"><?= $errors['project_id'] ?? ''; ?></p>
@@ -62,7 +64,7 @@
                     type="text"
                     name="end_date"
                     id="date"
-                    value="<?= $task['end_date'] ?? ''; ?>"
+                    value="<?= isset($task['end_date']) ? htmlspecialchars($task['end_date']) : ''; ?>"
                     placeholder="Введите дату в формате ГГГГ-ММ-ДД"
                 >
                 <p class="form__message"><?= $errors['end_date'] ?? ''; ?></p>

@@ -9,7 +9,7 @@
                         <a
                             class="main-navigation__list-item-link <?php if ($project['id'] === $project_id): ?> main-navigation__list-item--active<?php endif; ?>"
                             href="?project_id=<?= $project['id'] ?>">
-                            <?= $project['title'] ?>
+                            <?= htmlspecialchars($project['title']) ?>
                         </a>
                         <span class="main-navigation__list-item-count"><?= count_tasks($tasks, $project['id']); ?></span>
                     </li>
@@ -25,7 +25,7 @@
         <h2 class="content__main-heading">Список задач</h2>
 
         <form class="search-form" action="" method="get" autocomplete="off">
-            <input class="search-form__input" type="text" name="search" value="<?= $search ?? ''; ?>" placeholder="Поиск по задачам">
+            <input class="search-form__input" type="text" name="search" value="<?= isset($search) ? htmlspecialchars($search) : ''; ?>" placeholder="Поиск по задачам">
 
             <input class="search-form__submit" type="submit" name="" value="Искать">
         </form>
