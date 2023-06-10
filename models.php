@@ -100,8 +100,10 @@ function get_password_by_email($con, $email)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql    = "SELECT password FROM users WHERE email = '$email'";
-        $result = mysqli_query($con, $sql);
+        $sql    = "SELECT password FROM users WHERE email = (?)";
+        $stmt = db_get_prepare_stmt($con, $sql, [$email]);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
         if ($result) {
             $users_data = mysqli_fetch_assoc($result);
@@ -117,9 +119,10 @@ function get_name_by_email($con, $email)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql    = "SELECT user_name FROM users WHERE email = '$email'";
-        $result = mysqli_query($con, $sql);
-
+        $sql    = "SELECT user_name FROM users WHERE email = (?)";
+        $stmt = db_get_prepare_stmt($con, $sql, [$email]);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         if ($result) {
             $users_data = mysqli_fetch_assoc($result);
             return reset($users_data);
@@ -134,9 +137,10 @@ function get_id_by_email($con, $email)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql    = "SELECT id FROM users WHERE email = '$email'";
-        $result = mysqli_query($con, $sql);
-
+        $sql    = "SELECT id FROM users WHERE email = (?)";
+        $stmt = db_get_prepare_stmt($con, $sql, [$email]);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
         if ($result) {
             $users_data = mysqli_fetch_assoc($result);
             return reset($users_data);
@@ -151,15 +155,20 @@ function get_tasks_by_request($con, $request)
     if (!$con) {
         return mysqli_connect_error();
     } else {
-        $sql    = "SELECT p.title as project_title, t.status, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
-                  "JOIN projects p ON t.project_id = p.id " .
-                  "WHERE MATCH(t.title) AGAINST('$request')";
-        $result = mysqli_query($con, $sql);
+        $sql = "SELECT p.title as project_title, t.status, t.title, t.end_date, t.id, t.project_id FROM tasks t " .
+               "JOIN projects p ON t.project_id = p.id " .
+               "WHERE MATCH(t.title) AGAINST(?)";
+
+        $stmt = db_get_prepare_stmt($con, $sql, [$request]);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
 
         if ($result) {
-            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $data = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            mysqli_free_result($result);
+            return $data;
         } else {
-            return mysqli_error();
+            return mysqli_error($con);
         }
     }
 }
